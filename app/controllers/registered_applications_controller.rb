@@ -5,6 +5,7 @@ class RegisteredApplicationsController < ApplicationController
 
   def show
     @registered_application = RegisteredApplication.find(params[:id])
+    @events = @registered_application.events.group_by(&:name)
   end
 
   def new
@@ -33,7 +34,7 @@ class RegisteredApplicationsController < ApplicationController
 
     if @registered_application.update_attributes(registered_application_params)
       flash[:notice] = "Successfully updated \"#{@registered_application.name}\"."
-      redirect_to registered_applications_path
+      redirect_to registered_application_path
     else
       flash[:error] = "Failed to update Application"
       render :edit

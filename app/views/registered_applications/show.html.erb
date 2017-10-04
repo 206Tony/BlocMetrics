@@ -4,6 +4,15 @@
 			<div class="media-heading">
 				<h2><%= @registered_application.name %></h2>
 				<h4><%= @registered_application.url %></h4>
+				<hr>
+				<% if @registered_application.events.any? %>
+					<h4>Events</h4>
+					<% @events.each do |event, events| %>
+					<p>
+						<%= event.capitalize %>&nbsp;<span class="badge"><%= events.count %></span>
+					</p>
+					<% end %>
+				<% end %>
 			</div>
 		</div>
 	</div>
