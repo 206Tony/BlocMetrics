@@ -1,4 +1,5 @@
 class RegisteredApplicationsController < ApplicationController
+  before_action :require_sign_in
   def index
     @registered_applications = RegisteredApplication.all
   end
@@ -31,11 +32,11 @@ class RegisteredApplicationsController < ApplicationController
   end
 
   def update
-    @registered_application.events = RegisteredApplication.find(params[:id])
+    @registered_application = RegisteredApplication.find(params[:id])
 
     if @registered_application.update_attributes(registered_application_params)
       flash[:notice] = "Successfully updated \"#{@registered_application.name}\"."
-      redirect_to registered_application_path
+      redirect_to registered_applications_path
     else
       flash[:error] = "Failed to update Application"
       render :edit
@@ -58,5 +59,12 @@ class RegisteredApplicationsController < ApplicationController
 
   def registered_application_params
     params.require(:registered_application).permit(:name, :url)
+  end
+
+  def require_sign_in 
+    unless current_user
+      flash[:alert] = "You must sign in to do that!"
+      redirect_to root_path
+    end
   end
 end

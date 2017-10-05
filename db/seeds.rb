@@ -13,17 +13,18 @@ users = User.all
 
 10.times do
   RegisteredApplication.create!(
-    name: Faker::Lorem.word,
+    name: Faker::Lorem.sentence,
     user: users.sample,
     url: Faker::Internet.url
   )
 end
 registered_applications = RegisteredApplication.all
 
-20.times do
+200.times do
   Event.create!(
-    name: Faker::Lorem.word,
-    registered_application: registered_applications.sample
+    name: Faker::Lorem.sentence,
+    registered_application: registered_applications.sample,
+    created_at: Faker::Date.between(10.days.ago, Date.today)
   )
 end
 events = Event.all
