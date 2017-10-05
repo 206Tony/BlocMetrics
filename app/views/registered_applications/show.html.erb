@@ -1,26 +1,31 @@
-<div class="row">
-	<div class="col-md-4">
+<div class="container">
+	<h1 style="text-align: left;">Events</h1>
+	<div class="col-md-14">
 		<div class="media">
 			<div class="media-heading">
 				<h2><%= @registered_application.name %></h2>
 				<h3><%= @registered_application.url %></h3>
 				<hr>
-					<% if @registered_application.events.any? %>
-						<h4>Events</h4>
-					<div id="chart-1" style="height: 300px">
-						<%= pie_chart @registered_application.events.group(:name).count %>
-					</div>
-					<div id="chart-2" style="height: 300px">
-						<%= line_chart @registered_application.events.group_by_day(:created_at).count %>
-					</div>
-					<% end %>
 			</div>
 		</div>
 	</div>
-	<div class="col-md-col-2">
-		<%= link_to "Update Application", edit_registered_application_path, class: 'btn btn-success' %>
-		<%= link_to "Unregister Application", @registered_application, method: :delete, class: 'btn btn-danger', data: { confirm: "Do you want to delete Application" } %>
-		<%= link_to "Back", registered_applications_path, class: 'btn btn-info' %>
+</div>
+<hr>
+<div class="container">
+	<div class="col-md-8">
+		<% if @registered_application.events.any? %>
+			<div id="chart-1" style="height: 300px">
+				<%= pie_chart @registered_application.events.group(:name).count %>
+			</div>
+			<div id="chart-2" style="height: 150px">
+				<%= line_chart @registered_application.events.group_by_day(:created_at).count %>
+			</div>
+		<% end %>
 	</div>
+</div>
+<div class="col-md-col-2">
+	<%= link_to "Update Application", edit_registered_application_path, class: 'btn btn-success' %>
+	<%= link_to "Unregister Application", @registered_application, method: :delete, class: 'btn btn-danger', data: { confirm: "Do you want to delete Application" } %>
+	<%= link_to "Back", registered_applications_path, class: 'btn btn-info' %>
 </div>
 
