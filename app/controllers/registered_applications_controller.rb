@@ -1,6 +1,6 @@
 class RegisteredApplicationsController < ApplicationController
   def index
-    @registered_applications = current_user.registered_applications 
+    @registered_applications = RegisteredApplication.all
   end
 
   def show
@@ -13,12 +13,13 @@ class RegisteredApplicationsController < ApplicationController
   end
 
   def create
-    @registered_application = RegisteredApplication.new(registered_application_params)
-    @registered_application.user = current_user
+    @registered_application = RegisteredApplication.new
+    @registered_application.name = params[:registered_application][:name]
+    @registered_application.name = params[:registered_application][:url]
 
     if @registered_application.save
       flash[:notice] = "Application registered successfully"
-      redirect_to registered_applications_path
+      redirect_to [@registered_application]
     else
       flash[:alert] = "Failed to regiater Application"
       redirect_to :new
@@ -30,7 +31,7 @@ class RegisteredApplicationsController < ApplicationController
   end
 
   def update
-    @registered_application = RegisteredApplication.find(params[:id])
+    @registered_application.events = RegisteredApplication.find(params[:id])
 
     if @registered_application.update_attributes(registered_application_params)
       flash[:notice] = "Successfully updated \"#{@registered_application.name}\"."
